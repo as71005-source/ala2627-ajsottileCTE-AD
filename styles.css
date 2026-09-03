@@ -10,8 +10,8 @@
   --ink:        #010001;   /* body text */
   --muted:      #363f0ff6;   /* quieter text */
   --accent:     #730a5c;   /* links and rules — make this yours */
-  --paper:      #0c8162;
-  --line:       #003f9c;
+  --paper:      #0c0e81;
+  --line:       #030304;
   --measure:    34rem;     /* how wide a line of text gets before it wraps */
 }
 
