@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Treasure Tap</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Mini game</p>
+          <h1>Treasure Tap</h1>
+        </div>
+        <button id="start-btn" class="start-btn">Start game</button>
+      </header>
+
+      <section class="hud">
+        <div class="hud-box">
+          <span>Score</span>
+          <strong id="score">0</strong>
+        </div>
+        <div class="hud-box">
+          <span>Time</span>
+          <strong id="time">15</strong>
+        </div>
+      </section>
+
+      <div id="game-board" class="game-board" aria-label="Treasure game area">
+        <div id="target" class="target" aria-label="Treasure target"></div>
+      </div>
+
+      <p id="message" class="message">Press Start to begin.</p>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
