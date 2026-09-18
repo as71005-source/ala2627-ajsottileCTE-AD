@@ -136,10 +136,9 @@ h1 {
 .player {
   position: absolute;
   bottom: 18px;
-  left: 50%;
+  left: 0;
   width: 92px;
   height: 28px;
-  transform: translateX(-50%);
   background: linear-gradient(180deg, #f8fafc 0%, #67e8f9 45%, #2563eb 100%);
   clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
   border-radius: 10px 10px 0 0;

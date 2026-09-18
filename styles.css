@@ -30,10 +30,9 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background:
-    radial-gradient(circle at top left, rgba(122, 215, 255, 0.16), transparent 22%),
-    radial-gradient(circle at 80% 10%, rgba(154, 242, 209, 0.12), transparent 20%),
-    radial-gradient(circle at 40% 80%, rgba(184, 169, 255, 0.08), transparent 24%),
-    linear-gradient(135deg, #06141a 0%, #0d1c26 30%, #102d39 100%);
+    radial-gradient(circle at 50% 58%, rgba(255, 255, 255, 0.12), transparent 18%),
+    linear-gradient(180deg, rgba(5, 20, 10, 0.25), rgba(5, 20, 10, 0.05)),
+    linear-gradient(180deg, #0f3d24 0%, #14502f 26%, #184a30 44%, #143f29 100%);
   color: var(--text);
   font: 16px/1.6 "Segoe UI", "Inter", sans-serif;
   overflow-x: hidden;
@@ -45,10 +44,45 @@ body::before {
   inset: 0;
   z-index: -2;
   pointer-events: none;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-  background-size: 52px 52px;
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), transparent 80%);
+  background:
+    radial-gradient(circle at 50% 44%, rgba(255, 255, 255, 0.18), transparent 18%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: auto, 52px 52px, 52px 52px;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.58) 55%, transparent 100%);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  left: 50%;
+  top: 54%;
+  width: min(76vw, 940px);
+  height: min(76vw, 940px);
+  transform: translate(-50%, -50%);
+  z-index: -3;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.12) 0 10%, rgba(255, 255, 255, 0.04) 10% 12%, transparent 12% 100%),
+    linear-gradient(90deg, transparent 0 49.6%, rgba(255, 255, 255, 0.36) 49.6% 50.4%, transparent 50.4% 100%),
+    linear-gradient(transparent 0 49.6%, rgba(255, 255, 255, 0.36) 49.6% 50.4%, transparent 50.4% 100%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.14), transparent 34%, rgba(0, 0, 0, 0.06) 100%),
+    linear-gradient(45deg, rgba(255, 255, 255, 0.06) 0 14%, transparent 14% 86%, rgba(255, 255, 255, 0.06) 86% 100%);
+  border: 3px solid rgba(255, 255, 255, 0.28);
+  box-shadow:
+    inset 0 0 0 18px rgba(255, 255, 255, 0.06),
+    inset 0 0 0 34px rgba(190, 141, 92, 0.7),
+    inset 0 0 0 54px rgba(149, 95, 47, 0.72),
+    inset 0 0 0 115px rgba(135, 196, 102, 0.92),
+    0 0 0 34px rgba(255, 255, 255, 0.03);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  opacity: 0.88;
+}
+
+body::after::before {
+  content: "";
+  position: absolute;
+  inset: 0;
 }
 
 .ambient {
@@ -88,9 +122,26 @@ body::before {
 }
 
 .page-shell {
+  position: relative;
+  z-index: 1;
   width: min(calc(100% - 32px), var(--max-width));
   margin: 0 auto;
   padding: 22px 0 40px;
+}
+
+.page-shell::before {
+  content: "";
+  position: absolute;
+  inset: 4% 10% 8%;
+  border-radius: 32px;
+  background:
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.08) 0 18%, transparent 18% 100%),
+    linear-gradient(90deg, transparent 0 48.5%, rgba(255, 255, 255, 0.8) 48.5% 49.4%, transparent 49.4% 50.6%, rgba(255, 255, 255, 0.8) 50.6% 51.5%, transparent 51.5% 100%),
+    linear-gradient(transparent 0 48.5%, rgba(255, 255, 255, 0.8) 48.5% 49.4%, transparent 49.4% 50.6%, rgba(255, 255, 255, 0.8) 50.6% 51.5%, transparent 51.5% 100%);
+  opacity: 0.8;
+  filter: blur(0.2px);
+  pointer-events: none;
+  z-index: -1;
 }
 
 img {

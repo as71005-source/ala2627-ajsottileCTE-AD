@@ -39,7 +39,8 @@ function showMessage(text, type = '') {
 }
 
 function resetPlayerPosition() {
-  playerX = gameBoard.clientWidth / 2 - 46;
+  const playerWidth = player.offsetWidth || 92;
+  playerX = gameBoard.clientWidth / 2 - playerWidth / 2;
   player.style.left = `${playerX}px`;
 }
 
@@ -101,9 +102,10 @@ function shoot() {
   if (now - lastShotAt < 180) return;
   lastShotAt = now;
 
+  const playerWidth = player.offsetWidth || 92;
   const bullet = document.createElement('div');
   bullet.className = 'player-bullet';
-  const bulletX = playerX + 42;
+  const bulletX = playerX + playerWidth / 2 - 3;
   const bulletY = gameBoard.clientHeight - 50;
   bullet.style.left = `${bulletX}px`;
   bullet.style.top = `${bulletY}px`;
@@ -247,9 +249,9 @@ function handleEnemyShots() {
     }
 
     const playerRect = {
-      x: playerX + 18,
+      x: playerX,
       y: gameBoard.clientHeight - 36,
-      width: 58,
+      width: player.offsetWidth || 92,
       height: 24,
     };
 
