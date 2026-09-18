@@ -5,9 +5,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#07151d">
-  <title>anthony J. Sottile | Portfolio</title>
+  <title>Alex J. Sottile | Portal Category</title>
   <meta name="description"
-    content="Modern bento-grid portfolio for Alex J. Sottile featuring glassmorphism, creative coding, and student projects.">
+    content="Portal category landing page for Alex J. Sottile featuring a creative portfolio dashboard and personal access hub.">
   <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -16,43 +16,48 @@
   <div class="ambient ambient-two" aria-hidden="true"></div>
   <div class="ambient ambient-three" aria-hidden="true"></div>
 
-  <div class="page-shell">
+  <div class="page-shell" id="top">
     <header class="site-header">
-      <a class="wordmark" href="#top" aria-label="Alex Sottile home">
+      <a class="wordmark" href="#top" aria-label="Alex J. Sottile home">
         <span class="wordmark-mark">A</span>
         <span>ajsottile<span class="wordmark-dot">.</span></span>
       </a>
 
       <nav aria-label="Main navigation">
         <a href="#about">About</a>
-        <a href="#work">Work</a>
-        <a href="#contact" class="nav-cta">Let's connect <span aria-hidden="true">↗</span></a>
+        <a href="#work">Projects</a>
+        <a href="#tools">Tools</a>
+        <a href="#portal" class="nav-cta">Portal <span aria-hidden="true">↗</span></a>
       </nav>
     </header>
 
-    <main class="bento-grid" id="top">
+    <main class="dashboard-grid" id="portal">
       <section class="card hero-card tilt-card" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="eyebrow"><span class="status-dot"></span>Student / Builder / Creator</p>
-          <h1 id="hero-title">I design ideas that turn into real things.</h1>
+          <p class="eyebrow"><span class="status-dot"></span>Portal category / Student / Designer / Developer</p>
+          <h1 id="hero-title">I build digital experiences that feel live, sharp, and purposeful.</h1>
           <p class="hero-intro">
-            I’m Alex J. Sottile, a student learning how to combine code, creativity, and problem-solving to build
-            experiences that feel clean, thoughtful, and useful.
+            I’m Alex J. Sottile, and I create clean, modern interfaces that blend visual design, front-end craft,
+            and playful experimentation into projects people can actually explore and enjoy.
           </p>
 
           <div class="hero-actions">
-            <a class="button button-primary" href="#work">Explore my work <span aria-hidden="true">↓</span></a>
+            <a class="button" href="#work">Open my work <span aria-hidden="true">↓</span></a>
             <a class="text-link" href="mailto:as71005@stu.alaschools.org">Say hello <span
                 aria-hidden="true">↗</span></a>
           </div>
         </div>
 
-        <div class="hero-orbit" aria-hidden="true">
-          <div class="orbit ring-one"></div>
-          <div class="orbit ring-two"></div>
-          <div class="orbit-core">
-            <span>live</span>
-            <strong>build</strong>
+        <div class="hero-panel" aria-hidden="true">
+          <div class="panel-glow"></div>
+          <div class="signal-card">
+            <span class="signal-label">Portal status</span>
+            <strong>online</strong>
+          </div>
+          <div class="radar">
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
         </div>
       </section>
@@ -65,52 +70,65 @@
           </div>
         </div>
         <h2>Alex J. Sottile</h2>
-        <p>High school student focused on web design, Python, and making projects that feel alive.</p>
+        <p>Focused on front-end design, Python projects, and creative problem-solving with a strong eye for flow.</p>
         <div class="meta-row">
-          <span>📍 Seattle, WA</span>
+          <span>Seattle, WA</span>
           <span id="dateText">Loading date…</span>
         </div>
       </aside>
 
-      <section class="card stat-card tilt-card">
-        <div class="mini-label">Momentum</div>
-        <div class="big-number">02</div>
-        <p>creative builds currently in motion.</p>
+      <section class="card metrics-card tilt-card">
+        <div class="mini-label">Signal</div>
+        <div class="metric-stack">
+          <div>
+            <span class="metric-value">12</span>
+            <span class="metric-label">projects</span>
+          </div>
+          <div>
+            <span class="metric-value">3</span>
+            <span class="metric-label">active builds</span>
+          </div>
+          <div>
+            <span class="metric-value">∞</span>
+            <span class="metric-label">ideas</span>
+          </div>
+        </div>
       </section>
 
-      <section class="card skill-card tilt-card">
-        <div class="mini-label">Focus</div>
+      <section class="card tools-card tilt-card" id="tools">
+        <div class="mini-label">Stack</div>
         <div class="chip-list">
           <span>HTML</span>
           <span>CSS</span>
-          <span>JS</span>
+          <span>JavaScript</span>
           <span>Python</span>
           <span>UI</span>
           <span>Design</span>
+          <span>Canvas</span>
+          <span>Creative code</span>
         </div>
       </section>
 
       <section class="card about-card tilt-card card-span-2" id="about">
-        <div class="section-kicker">About me</div>
+        <div class="section-kicker">About</div>
         <div class="about-layout">
-          <h3>Learning by making, then improving the next version.</h3>
+          <h3>Designing with intent, then refining until the experience feels effortless.</h3>
           <p>
-            I enjoy the process of turning rough ideas into thoughtful digital experiences. I’m learning the building
-            blocks of design and code, and each project helps me understand how to make something more polished,
-            clearer, and more useful.
+            I enjoy learning by building. Every project is a chance to sharpen my visual sense, strengthen my code,
+            and create something that communicates clearly while still feeling memorable and alive.
           </p>
         </div>
       </section>
 
       <section class="card project-card tilt-card card-span-2" id="work">
-        <div class="section-kicker">Selected work</div>
+        <div class="section-kicker">Featured work</div>
 
         <div class="project-list">
           <a href="game/" class="project-item">
             <div class="project-index">01</div>
             <div>
-              <h4>The Vault</h4>
-              <p>Python text adventure with branching decisions.</p>
+              <h4>Game Lab</h4>
+              <p>Browser-based play experiences with motion, feedback, and interactive systems.</p>
             </div>
             <span class="project-arrow">↗</span>
           </a>
@@ -119,7 +137,16 @@
             <div class="project-index">02</div>
             <div>
               <h4>Assignments</h4>
-              <p>Classwork and experiments built as I keep learning.</p>
+              <p>Class experiments, progress snapshots, and learning projects built over time.</p>
+            </div>
+            <span class="project-arrow">↗</span>
+          </a>
+
+          <a href="index.html" class="project-item">
+            <div class="project-index">03</div>
+            <div>
+              <h4>Portal Category</h4>
+              <p>The main personal portal entrypoint: a clean digital command center and launch pad.</p>
             </div>
             <span class="project-arrow">↗</span>
           </a>
@@ -127,22 +154,22 @@
       </section>
 
       <aside class="card quote-card tilt-card">
-        <div class="section-kicker">Mantra</div>
+        <div class="section-kicker">Approach</div>
         <blockquote>
-          “Build small things with intention, then make them better than yesterday.”
+          “Make it useful, make it beautiful, and make the next version smarter than the last.”
         </blockquote>
       </aside>
 
       <aside class="card contact-card tilt-card" id="contact">
         <div class="section-kicker">Contact</div>
         <a class="contact-link" href="mailto:as71005@stu.alaschools.org">as71005@stu.alaschools.org <span>↗</span></a>
-        <p>Open to collaboration, ideas, and new creative opportunities.</p>
+        <p>Open to collaboration, feedback, and creative projects that push ideas forward.</p>
       </aside>
     </main>
 
     <footer class="site-footer">
       <span>Built by Alex J. Sottile</span>
-      <span>Last updated <span id="footerDate">September 2026</span></span>
+      <span>Updated <span id="footerDate">September 2026</span></span>
       <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
     </footer>
   </div>
