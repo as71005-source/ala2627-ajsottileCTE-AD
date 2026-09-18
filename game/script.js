@@ -1,35 +1,38 @@
 const startButton = document.getElementById('start-btn');
-const scoreLabel = document.getElementById('score');
-const livesLabel = document.getElementById('lives');
-const timeLabel = document.getElementById('time');
-const levelLabel = document.getElementById('level');
+const playerScoreLabel = document.getElementById('player-score');
+const cpuScoreLabel = document.getElementById('cpu-score');
+const roundLabel = document.getElementById('round');
+const statusLabel = document.getElementById('status');
 const message = document.getElementById('message');
-const gameBoard = document.getElementById('game-board');
-const player = document.getElementById('player');
+const canvas = document.getElementById('game-board');
+const ctx = canvas.getContext('2d');
 
-const keys = { left: false, right: false };
-const bullets = [];
-const enemyBullets = [];
-const invaders = [];
+const paddleHeight = 110;
+const paddleWidth = 14;
+const ballRadius = 10;
 
-let score = 0;
-let lives = 3;
-let timeLeft = 60;
-let level = 1;
-let gameRunning = false;
-let animationFrame = null;
-let countdownTimer = null;
-let lastShotAt = 0;
-let lastInvaderMove = 0;
-let invaderDirection = 1;
-let playerX = 0;
-let highScore = Number(localStorage.getItem('spaceInvadersHighScore')) || 0;
+const leftPaddle = { x: 26, y: canvas.height / 2 - paddleHeight / 2, width: paddleWidth, height: paddleHeight, score: 0 };
+const rightPaddle = { x: canvas.width - 26 - paddleWidth, y: canvas.height / 2 - paddleHeight / 2, width: paddleWidth, height: paddleHeight, score: 0 };
+
+const ball = {
+  x: canvas.width / 2,
+  y: canvas.height / 2,
+  radius: ballRadius,
+  dx: 5,
+  dy: 4,
+  speed: 6,
+};
+
+let round = 1;
+let running = false;
+let lastTime = 0;
+let pointerY = canvas.height / 2;
 
 function updateHud() {
-  scoreLabel.textContent = String(score);
-  livesLabel.textContent = String(lives);
-  timeLabel.textContent = String(timeLeft);
-  levelLabel.textContent = String(level);
+  playerScoreLabel.textContent = String(leftPaddle.score);
+  cpuScoreLabel.textContent = String(rightPaddle.score);
+  roundLabel.textContent = String(round);
+  statusLabel.textContent = running ? 'Live' : 'Ready';
 }
 
 function showMessage(text, type = '') {
@@ -37,359 +40,163 @@ function showMessage(text, type = '') {
   message.className = `message ${type}`.trim();
 }
 
-function resetPlayerPosition() {
-  const playerWidth = player.offsetWidth || 92;
-  playerX = (gameBoard.clientWidth - playerWidth) / 2;
-  player.style.left = `${playerX}px`;
+function resetBall() {
+  ball.x = canvas.width / 2;
+  ball.y = canvas.height / 2;
+  const direction = Math.random() > 0.5 ? 1 : -1;
+  ball.dx = direction * (ball.speed + Math.random() * 1.5);
+  ball.dy = (Math.random() * 6 - 3);
 }
 
-function clearEntities() {
-  bullets.forEach((bullet) => bullet.element.remove());
-  enemyBullets.forEach((bullet) => bullet.element.remove());
-  invaders.forEach((invader) => invader.element.remove());
-
-  bullets.length = 0;
-  enemyBullets.length = 0;
-  invaders.length = 0;
-}
-
-function createInvader(x, y, size, row, col) {
-  const invader = document.createElement('div');
-  invader.className = 'invader';
-  invader.style.width = `${size}px`;
-  invader.style.height = `${size}px`;
-  invader.style.left = `${x}px`;
-  invader.style.top = `${y}px`;
-  gameBoard.appendChild(invader);
-
-  return {
-    element: invader,
-    x,
-    y,
-    width: size,
-    height: size,
-    row,
-    col,
-    alive: true,
-  };
-}
-
-function createWave() {
-  clearEntities();
-
-  const rows = 5;
-  const cols = 10;
-  const gap = 12;
-  const size = 24;
-  const startX = 40;
-  const startY = 24;
-
-  for (let row = 0; row < rows; row += 1) {
-    for (let col = 0; col < cols; col += 1) {
-      const x = startX + col * (size + gap);
-      const y = startY + row * (size + gap);
-      invaders.push(createInvader(x, y, size, row, col));
-    }
-  }
-
-  invaderDirection = 1;
-  lastInvaderMove = 0;
-}
-
-function shoot() {
-  if (!gameRunning) return;
-
-  const now = Date.now();
-  if (now - lastShotAt < 200) return;
-  lastShotAt = now;
-
-  const bulletWidth = 6;
-  const bulletHeight = 16;
-  const bullet = document.createElement('div');
-  bullet.className = 'player-bullet';
-
-  const bulletX = playerX + (player.offsetWidth || 92) / 2 - bulletWidth / 2;
-  const bulletY = gameBoard.clientHeight - 56;
-
-  bullet.style.left = `${bulletX}px`;
-  bullet.style.top = `${bulletY}px`;
-  gameBoard.appendChild(bullet);
-
-  bullets.push({
-    element: bullet,
-    x: bulletX,
-    y: bulletY,
-    width: bulletWidth,
-    height: bulletHeight,
-    speed: 440,
-  });
-}
-
-function enemyShoot() {
-  if (!gameRunning || invaders.length === 0) return;
-
-  const shooters = invaders.filter((invader) => invader.alive);
-  if (shooters.length === 0) return;
-
-  const shooter = shooters.reduce((lowest, current) => {
-    if (!lowest || current.y > lowest.y) return current;
-    return lowest;
-  }, null);
-
-  if (!shooter) return;
-
-  const bullet = document.createElement('div');
-  bullet.className = 'enemy-bullet';
-  const bulletX = shooter.x + shooter.width / 2 - 3;
-  const bulletY = shooter.y + shooter.height + 8;
-
-  bullet.style.left = `${bulletX}px`;
-  bullet.style.top = `${bulletY}px`;
-  gameBoard.appendChild(bullet);
-
-  enemyBullets.push({
-    element: bullet,
-    x: bulletX,
-    y: bulletY,
-    width: 6,
-    height: 16,
-    speed: 260,
-  });
-}
-
-function removeBullet(index, array) {
-  const bullet = array[index];
-  if (!bullet) return;
-  bullet.element.remove();
-  array.splice(index, 1);
-}
-
-function removeInvader(index) {
-  const invader = invaders[index];
-  if (!invader) return;
-  invader.alive = false;
-  invader.element.remove();
-  invaders.splice(index, 1);
-}
-
-function intersects(a, b) {
-  return !(
-    a.x + a.width <= b.x ||
-    a.x >= b.x + b.width ||
-    a.y + a.height <= b.y ||
-    a.y >= b.y + b.height
-  );
-}
-
-function endGame() {
-  gameRunning = false;
-  clearInterval(countdownTimer);
-  cancelAnimationFrame(animationFrame);
-
-  if (score > highScore) {
-    highScore = score;
-    localStorage.setItem('spaceInvadersHighScore', String(highScore));
-  }
-
-  showMessage(`Mission failed. Final score: ${score}. Best: ${highScore}. Press Start to try again.`, 'bad');
-}
-
-function advanceInvaders() {
-  if (!gameRunning || invaders.length === 0) return;
-
-  let moveX = invaderDirection * 18;
-  let moveY = 0;
-
-  for (const invader of invaders) {
-    const nextX = invader.x + moveX;
-    if (nextX <= 8 || nextX + invader.width >= gameBoard.clientWidth - 8) {
-      moveX = 0;
-      moveY = 18;
-      invaderDirection *= -1;
-      break;
-    }
-  }
-
-  for (const invader of invaders) {
-    invader.x += moveX;
-    invader.y += moveY;
-    invader.element.style.left = `${invader.x}px`;
-    invader.element.style.top = `${invader.y}px`;
-  }
-
-  const lowestInvader = Math.max(...invaders.map((invader) => invader.y + invader.height));
-  if (lowestInvader >= gameBoard.clientHeight - 44) {
-    endGame();
-  }
-}
-
-function handlePlayerBullets() {
-  for (let i = bullets.length - 1; i >= 0; i -= 1) {
-    const bullet = bullets[i];
-    bullet.y -= bullet.speed / 60;
-    bullet.element.style.top = `${bullet.y}px`;
-
-    if (bullet.y + bullet.height < 0) {
-      removeBullet(i, bullets);
-      continue;
-    }
-
-    for (let j = invaders.length - 1; j >= 0; j -= 1) {
-      const invader = invaders[j];
-      if (!invader.alive) continue;
-
-      if (intersects(bullet, invader)) {
-        removeBullet(i, bullets);
-        removeInvader(j);
-        score += 10;
-        updateHud();
-        showMessage('Target destroyed!', 'good');
-        break;
-      }
-    }
-  }
-}
-
-function handleEnemyBullets() {
-  for (let i = enemyBullets.length - 1; i >= 0; i -= 1) {
-    const bullet = enemyBullets[i];
-    bullet.y += bullet.speed / 60;
-    bullet.element.style.top = `${bullet.y}px`;
-
-    if (bullet.y > gameBoard.clientHeight) {
-      removeBullet(i, enemyBullets);
-      continue;
-    }
-
-    const playerRect = {
-      x: playerX,
-      y: gameBoard.clientHeight - 36,
-      width: player.offsetWidth || 92,
-      height: 24,
-    };
-
-    if (intersects(bullet, playerRect)) {
-      removeBullet(i, enemyBullets);
-      lives -= 1;
-      updateHud();
-      showMessage('Direct hit! Keep moving!', 'bad');
-
-      if (lives <= 0) {
-        endGame();
-        return;
-      }
-    }
-  }
-}
-
-function tickGame(timeStamp) {
-  if (!gameRunning) return;
-
-  const delta = (timeStamp - (tickGame.lastTime || timeStamp)) / 1000;
-  tickGame.lastTime = timeStamp;
-
-  if (keys.left) {
-    playerX -= 280 * delta;
-  }
-
-  if (keys.right) {
-    playerX += 280 * delta;
-  }
-
-  const maxX = gameBoard.clientWidth - (player.offsetWidth || 92);
-  playerX = Math.max(0, Math.min(playerX, maxX));
-  player.style.left = `${playerX}px`;
-
-  if (timeStamp - lastInvaderMove > Math.max(180, 700 - level * 40)) {
-    lastInvaderMove = timeStamp;
-    advanceInvaders();
-
-    if (Math.random() < 0.2 + level * 0.04) {
-      enemyShoot();
-    }
-  }
-
-  handlePlayerBullets();
-  handleEnemyBullets();
-
-  if (invaders.length === 0) {
-    level += 1;
-    updateHud();
-    showMessage(`Wave cleared! Level ${level}!`, 'good');
-    createWave();
-    score += 50;
-    updateHud();
-  }
-
-  animationFrame = requestAnimationFrame(tickGame);
-}
-
-function tickClock() {
-  if (!gameRunning) return;
-
-  timeLeft -= 1;
+function resetRound() {
+  leftPaddle.y = canvas.height / 2 - paddleHeight / 2;
+  rightPaddle.y = canvas.height / 2 - paddleHeight / 2;
+  pointerY = leftPaddle.y + paddleHeight / 2;
+  resetBall();
   updateHud();
-
-  if (timeLeft <= 0) {
-    endGame();
-  }
 }
 
 function startGame() {
-  score = 0;
-  lives = 3;
-  timeLeft = 60;
-  level = 1;
-  gameRunning = true;
-  resetPlayerPosition();
+  leftPaddle.score = 0;
+  rightPaddle.score = 0;
+  round = 1;
+  running = true;
+  resetRound();
+  showMessage('Portal Category match live!', 'good');
   updateHud();
-  showMessage('Defend Earth! Enemy fleet incoming!', 'good');
-
-  clearEntities();
-  createWave();
-
-  clearInterval(countdownTimer);
-  cancelAnimationFrame(animationFrame);
-
-  countdownTimer = setInterval(tickClock, 1000);
-  animationFrame = requestAnimationFrame(tickGame);
 }
 
-window.addEventListener('keydown', (event) => {
-  const key = event.key.toLowerCase();
+function handlePaddleMovement() {
+  leftPaddle.y = pointerY - paddleHeight / 2;
+  leftPaddle.y = Math.max(10, Math.min(canvas.height - paddleHeight - 10, leftPaddle.y));
 
-  if (event.key === 'ArrowLeft' || key === 'a') {
-    keys.left = true;
+  const cpuTarget = ball.y - rightPaddle.height / 2;
+  rightPaddle.y += (cpuTarget - rightPaddle.y) * 0.09;
+  rightPaddle.y = Math.max(10, Math.min(canvas.height - rightPaddle.height - 10, rightPaddle.y));
+}
+
+function checkCollision() {
+  if (ball.y - ball.radius <= 0 || ball.y + ball.radius >= canvas.height) {
+    ball.dy *= -1;
   }
 
-  if (event.key === 'ArrowRight' || key === 'd') {
-    keys.right = true;
+  if (ball.x - ball.radius <= leftPaddle.x + leftPaddle.width && ball.y >= leftPaddle.y && ball.y <= leftPaddle.y + leftPaddle.height && ball.x > leftPaddle.x) {
+    const hitPoint = (ball.y - (leftPaddle.y + leftPaddle.height / 2)) / (leftPaddle.height / 2);
+    ball.dx = Math.abs(ball.dx) + 0.6;
+    ball.dy = hitPoint * 8;
+    ball.x = leftPaddle.x + leftPaddle.width + ball.radius;
   }
 
-  if (event.code === 'Space') {
-    event.preventDefault();
-    shoot();
+  if (ball.x + ball.radius >= rightPaddle.x && ball.y >= rightPaddle.y && ball.y <= rightPaddle.y + rightPaddle.height && ball.x < rightPaddle.x + rightPaddle.width) {
+    const hitPoint = (ball.y - (rightPaddle.y + rightPaddle.height / 2)) / (rightPaddle.height / 2);
+    ball.dx = -Math.abs(ball.dx) - 0.6;
+    ball.dy = hitPoint * 8;
+    ball.x = rightPaddle.x - ball.radius;
   }
+}
+
+function scorePoint() {
+  if (ball.x < 0) {
+    rightPaddle.score += 1;
+    showMessage('CPU scores!', 'bad');
+  }
+
+  if (ball.x > canvas.width) {
+    leftPaddle.score += 1;
+    showMessage('Player scores!', 'good');
+  }
+
+  updateHud();
+  resetBall();
+
+  if (leftPaddle.score >= 7 || rightPaddle.score >= 7) {
+    running = false;
+    round += 1;
+    showMessage(leftPaddle.score > rightPaddle.score ? 'You win the portal match!' : 'CPU wins this round.', 'good');
+    updateHud();
+  }
+}
+
+function updateBall() {
+  if (!running) return;
+
+  ball.x += ball.dx;
+  ball.y += ball.dy;
+
+  if (ball.x < 0 || ball.x > canvas.width) {
+    scorePoint();
+  }
+
+  checkCollision();
+}
+
+function drawCenterLine() {
+  ctx.beginPath();
+  ctx.setLineDash([10, 12]);
+  ctx.strokeStyle = 'rgba(255,255,255,0.35)';
+  ctx.moveTo(canvas.width / 2, 0);
+  ctx.lineTo(canvas.width / 2, canvas.height);
+  ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+function drawPaddle(paddle, color) {
+  ctx.fillStyle = color;
+  ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
+}
+
+function drawBall() {
+  ctx.beginPath();
+  ctx.fillStyle = '#facc15';
+  ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+function drawPortalText() {
+  ctx.fillStyle = 'rgba(103, 232, 249, 0.26)';
+  ctx.font = 'bold 42px Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText('Portal Category', canvas.width / 2, 54);
+}
+
+function render() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = '#071a2b';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  drawCenterLine();
+  drawPortalText();
+  drawPaddle(leftPaddle, '#67e8f9');
+  drawPaddle(rightPaddle, '#a78bfa');
+  drawBall();
+}
+
+function gameLoop(timestamp) {
+  const delta = timestamp - lastTime;
+  lastTime = timestamp;
+
+  if (running) {
+    handlePaddleMovement();
+    updateBall();
+  }
+
+  render();
+  requestAnimationFrame(gameLoop);
+}
+
+canvas.addEventListener('mousemove', (event) => {
+  const rect = canvas.getBoundingClientRect();
+  const mouseY = ((event.clientY - rect.top) / rect.height) * canvas.height;
+  pointerY = mouseY;
 });
 
-window.addEventListener('keyup', (event) => {
-  const key = event.key.toLowerCase();
-
-  if (event.key === 'ArrowLeft' || key === 'a') {
-    keys.left = false;
-  }
-
-  if (event.key === 'ArrowRight' || key === 'd') {
-    keys.right = false;
-  }
+startButton.addEventListener('click', () => {
+  startGame();
 });
 
-gameBoard.addEventListener('pointerdown', () => {
-  shoot();
-});
-
-startButton.addEventListener('click', startGame);
-
-resetPlayerPosition();
 updateHud();
-showMessage('Press Start to defend Earth.', 'warn');
+showMessage('Press Start to launch the match.', 'warn');
+resetRound();
+render();
+requestAnimationFrame(gameLoop);
