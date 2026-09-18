@@ -4,45 +4,204 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portal Category | Ping Pong</title>
+  <title>Portal Category | My Games</title>
+  <meta name="description" content="Portal Category game arcade with 10 playable browser mini-games." />
   <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
-  <main class="game-shell">
+  <div class="page-shell">
     <header class="topbar">
-      <div>
-        <p class="eyebrow">Arcade portal</p>
-        <h1>Portal Category</h1>
+      <div class="brand">
+        <span class="brand-mark">P</span>
+        <span>Portal Category</span>
       </div>
-      <button id="start-btn" class="start-btn">Start game</button>
+
+      <nav class="nav" aria-label="Main navigation">
+        <a href="../index.html">Home</a>
+        <a href="#games">My Games</a>
+        <a href="#contact">Contact</a>
+      </nav>
     </header>
 
-    <section class="hud" aria-label="Game stats">
-      <div class="hud-box">
-        <span>Player</span>
-        <strong id="player-score">0</strong>
-      </div>
-      <div class="hud-box">
-        <span>CPU</span>
-        <strong id="cpu-score">0</strong>
-      </div>
-      <div class="hud-box">
-        <span>Round</span>
-        <strong id="round">1</strong>
-      </div>
-      <div class="hud-box">
-        <span>Status</span>
-        <strong id="status">Ready</strong>
-      </div>
-    </section>
+    <main class="games-page">
+      <section class="intro card">
+        <p class="eyebrow">Arcade portal / 10 game collection</p>
+        <h1>My games</h1>
+        <p>
+          A collection of quick browser games built to be playable, fun, and easy to jump into.
+        </p>
+      </section>
 
-    <div class="game-wrap">
-      <canvas id="game-board" width="900" height="520" aria-label="Portal Category ping pong game"></canvas>
-    </div>
+      <section class="game-grid" id="games">
+        <article class="mini-game card" id="game-memory">
+          <div class="game-head">
+            <h3>Memory Match</h3>
+            <span>Pairs</span>
+          </div>
+          <div class="memory-grid">
+            <button class="memory-card" data-index="0">?</button>
+            <button class="memory-card" data-index="1">?</button>
+            <button class="memory-card" data-index="2">?</button>
+            <button class="memory-card" data-index="3">?</button>
+            <button class="memory-card" data-index="4">?</button>
+            <button class="memory-card" data-index="5">?</button>
+            <button class="memory-card" data-index="6">?</button>
+            <button class="memory-card" data-index="7">?</button>
+            <button class="memory-card" data-index="8">?</button>
+            <button class="memory-card" data-index="9">?</button>
+            <button class="memory-card" data-index="10">?</button>
+            <button class="memory-card" data-index="11">?</button>
+          </div>
+          <div class="game-controls">
+            <strong id="memory-score">0</strong>
+            <button class="small-btn reset-btn" data-reset="memory">Reset</button>
+          </div>
+        </article>
 
-    <p id="message" class="message">Press Start to launch the match.</p>
-  </main>
+        <article class="mini-game card" id="game-rps">
+          <div class="game-head">
+            <h3>Rock Paper Scissors</h3>
+            <span>Best of 3</span>
+          </div>
+          <div class="rps-row">
+            <button class="rps-btn" data-choice="rock">✊</button>
+            <button class="rps-btn" data-choice="paper">✋</button>
+            <button class="rps-btn" data-choice="scissors">✌️</button>
+          </div>
+          <p id="rps-result" class="status-line">Pick one to play.</p>
+          <div class="game-controls">
+            <strong id="rps-score">0</strong>
+            <button class="small-btn reset-btn" data-reset="rps">Reset</button>
+          </div>
+        </article>
+
+        <article class="mini-game card" id="game-guess">
+          <div class="game-head">
+            <h3>Number Guess</h3>
+            <span>1 to 20</span>
+          </div>
+          <form id="guess-form" class="guess-form">
+            <input id="guess-input" type="number" min="1" max="20" placeholder="Enter a number" />
+            <button type="submit" class="small-btn">Guess</button>
+          </form>
+          <p id="guess-result" class="status-line">Try to find the secret number.</p>
+          <div class="game-controls">
+            <strong id="guess-score">0</strong>
+            <button class="small-btn reset-btn" data-reset="guess">Reset</button>
+          </div>
+        </article>
+
+        <article class="mini-game card" id="game-reaction">
+          <div class="game-head">
+            <h3>Reaction Test</h3>
+            <span>Click fast</span>
+          </div>
+          <button id="reaction-box" class="reaction-box">Start</button>
+          <p id="reaction-result" class="status-line">Tap to begin.</p>
+        </article>
+
+        <article class="mini-game card" id="game-tictactoe">
+          <div class="game-head">
+            <h3>Tic Tac Toe</h3>
+            <span>2-player</span>
+          </div>
+          <div class="ttt-grid">
+            <button class="ttt-cell" data-index="0"></button>
+            <button class="ttt-cell" data-index="1"></button>
+            <button class="ttt-cell" data-index="2"></button>
+            <button class="ttt-cell" data-index="3"></button>
+            <button class="ttt-cell" data-index="4"></button>
+            <button class="ttt-cell" data-index="5"></button>
+            <button class="ttt-cell" data-index="6"></button>
+            <button class="ttt-cell" data-index="7"></button>
+            <button class="ttt-cell" data-index="8"></button>
+          </div>
+          <p id="ttt-result" class="status-line">Player X starts.</p>
+          <button class="small-btn reset-btn" data-reset="ttt">Reset</button>
+        </article>
+
+        <article class="mini-game card" id="game-mole">
+          <div class="game-head">
+            <h3>Whack-a-Mole</h3>
+            <span>Hit the mole</span>
+          </div>
+          <div class="mole-grid">
+            <button class="mole-hole" data-index="0"></button>
+            <button class="mole-hole" data-index="1"></button>
+            <button class="mole-hole" data-index="2"></button>
+            <button class="mole-hole" data-index="3"></button>
+            <button class="mole-hole" data-index="4"></button>
+            <button class="mole-hole" data-index="5"></button>
+            <button class="mole-hole" data-index="6"></button>
+            <button class="mole-hole" data-index="7"></button>
+            <button class="mole-hole" data-index="8"></button>
+          </div>
+          <div class="game-controls">
+            <strong id="mole-score">0</strong>
+            <button class="small-btn reset-btn" data-reset="mole">Reset</button>
+          </div>
+        </article>
+
+        <article class="mini-game card" id="game-snake">
+          <div class="game-head">
+            <h3>Snake</h3>
+            <span>Arrow keys</span>
+          </div>
+          <canvas id="snake-board" width="220" height="220"></canvas>
+          <div class="game-controls">
+            <strong id="snake-score">0</strong>
+            <button class="small-btn reset-btn" data-reset="snake">Start</button>
+          </div>
+        </article>
+
+        <article class="mini-game card" id="game-color">
+          <div class="game-head">
+            <h3>Color Catch</h3>
+            <span>Click the target</span>
+          </div>
+          <div id="color-field" class="color-field">
+            <button id="color-target" class="color-target">+</button>
+          </div>
+          <div class="game-controls">
+            <strong id="color-score">0</strong>
+            <button class="small-btn reset-btn" data-reset="color">Reset</button>
+          </div>
+        </article>
+
+        <article class="mini-game card" id="game-typing">
+          <div class="game-head">
+            <h3>Typing Rush</h3>
+            <span>Type fast</span>
+          </div>
+          <div id="typing-word" class="typing-word">portal</div>
+          <input id="typing-input" type="text" placeholder="Type here" autocomplete="off" />
+          <div class="game-controls">
+            <strong id="typing-score">0</strong>
+            <button class="small-btn reset-btn" data-reset="typing">Reset</button>
+          </div>
+        </article>
+
+        <article class="mini-game card" id="game-pong">
+          <div class="game-head">
+            <h3>Pong</h3>
+            <span>Use keys</span>
+          </div>
+          <canvas id="pong-board" width="320" height="220"></canvas>
+          <div class="game-controls">
+            <strong id="pong-score">0</strong>
+            <button class="small-btn reset-btn" data-reset="pong">Restart</button>
+          </div>
+        </article>
+      </section>
+
+      <aside class="card contact-card" id="contact">
+        <span class="section-tag">Contact</span>
+        <a href="mailto:as71005@stu.alaschools.org" class="email-link">as71005@stu.alaschools.org</a>
+        <p>Open to collaboration and more creative game builds.</p>
+      </aside>
+    </main>
+  </div>
 
   <script src="script.js"></script>
 </body>
