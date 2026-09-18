@@ -239,12 +239,12 @@
       scoreEl.textContent = Math.floor(score);
 
       spawnTimer += dt;
-      if (spawnTimer > 1100) {
+      if (spawnTimer > 900) {
         spawnTimer = 0;
         spawnObstacle();
       }
 
-      const speed = 6 + Math.min(score / 120, 5);
+      const speed = 8 + Math.min(score / 90, 7);
       for (let i = obstacles.length - 1; i >= 0; i -= 1) {
         const obstacle = obstacles[i];
         obstacle.x -= speed;
