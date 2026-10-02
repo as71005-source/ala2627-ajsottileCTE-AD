@@ -1,34 +1,62 @@
-// script.js — your Week 8 project. One file, four days.
-// Work on ONE day's section at a time. Save (commit and push) at every save point.
+const button = document.querySelector("#action");
+const taskInput = document.querySelector("#task-input");
+const taskList = document.querySelector("#task-list");
+const output = document.querySelector("#output");
 
-// ─────────────── DAY 1 · Say hello ───────────────
-// TODO: make JavaScript print a message in the console.
-//       Your message shows in the Console panel at the bottom of your page.
-//       Remove the two slashes at the start of the next line, then save and reload.
-// console.log("script.js is connected");
+let tasks = JSON.parse(localStorage.getItem("focus-tasks") || "[]");
 
+function renderTasks() {
+  taskList.innerHTML = "";
 
-// ─────────────── DAY 2 · Wire the click ───────────────
-// TODO 1: find the button by its id. The # means "id".
-// const button = document.querySelector("#action");
+  if (tasks.length === 0) {
+    const empty = document.createElement("li");
+    empty.className = "empty";
+    empty.textContent = "No tasks yet — start your plan.";
+    taskList.appendChild(empty);
+    return;
+  }
 
-// TODO 2: find the paragraph JavaScript writes into.
-// const output = document.querySelector("#output");
+  tasks.forEach((task, index) => {
+    const item = document.createElement("li");
+    const label = document.createElement("span");
+    label.textContent = task;
 
-// TODO 3: when the button is clicked, change the words on the page.
-// button.addEventListener("click", function () {
-//   output.textContent = "You clicked it!";
-// });
+    const doneButton = document.createElement("button");
+    doneButton.type = "button";
+    doneButton.className = "done-btn";
+    doneButton.textContent = "Done";
+    doneButton.setAttribute("aria-label", `Mark ${task} as done`);
 
+    doneButton.addEventListener("click", function () {
+      tasks.splice(index, 1);
+      localStorage.setItem("focus-tasks", JSON.stringify(tasks));
+      renderTasks();
+      output.textContent = `Completed: ${task}`;
+    });
 
-// ─────────────── DAY 3 · Make it YOUR thing ───────────────
-// TODO 1: a variable that remembers something between clicks.
-//         Put it HERE, at the top of this section, not inside a function.
+    item.append(label, doneButton);
+    taskList.appendChild(item);
+  });
+}
 
-// TODO 2: a function that changes the variable and shows the new value on the page.
+button.addEventListener("click", function () {
+  const task = taskInput.value.trim();
 
-// TODO 3: make the button run your function (you can replace the Day 2 listener).
+  if (!task) {
+    output.textContent = "Type a task before saving it.";
+    taskInput.focus();
+    return;
+  }
 
+  tasks.push(task);
+  localStorage.setItem("focus-tasks", JSON.stringify(tasks));
+  renderTasks();
 
-// ─────────────── DAY 4 · Level up ───────────────
-// ONE upgrade. Retype it and be able to explain every line.
+  output.textContent = `Added: ${task}`;
+  taskInput.value = "";
+  taskInput.focus();
+});
+
+renderTasks();
+console.log("Focus planner loaded");
+

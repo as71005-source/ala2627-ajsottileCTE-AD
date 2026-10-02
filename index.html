@@ -5,9 +5,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#07151d">
-  <title>Alex J. Sottile | Portal Category</title>
+  <title>Alex J. Sottile | Creative Developer & Designer</title>
   <meta name="description"
-    content="Portal category landing page for Alex J. Sottile featuring a creative portfolio dashboard and personal access hub.">
+    content="Portfolio landing page for Alex J. Sottile featuring creative digital work, front-end design, and development projects.">
   <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -29,6 +29,11 @@
         <a href="#tools">Tools</a>
         <a href="#portal" class="nav-cta">Portal <span aria-hidden="true">↗</span></a>
       </nav>
+
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode">
+        <span class="theme-toggle__icon" aria-hidden="true">☀️</span>
+        <span class="theme-toggle__label">Light</span>
+      </button>
     </header>
 
     <main class="dashboard-grid" id="portal">
@@ -109,6 +114,28 @@
         </div>
       </section>
 
+      <section class="card mood-card tilt-card" id="focus-tool">
+        <div class="mini-label">Tool</div>
+        <div class="tool-header">
+          <h3>Mood Tracker</h3>
+          <span id="moodDate" class="timer-display">Today</span>
+        </div>
+        <p id="moodSummary" class="mood-summary">Today: not logged yet</p>
+
+        <div class="mood-options" aria-label="Choose today's mood">
+          <button class="mood-button happy" data-mood="happy" type="button">😊 Happy</button>
+          <button class="mood-button calm" data-mood="calm" type="button">😌 Calm</button>
+          <button class="mood-button stressed" data-mood="stressed" type="button">😵 Stressed</button>
+          <button class="mood-button tired" data-mood="tired" type="button">😴 Tired</button>
+        </div>
+
+        <label class="note-label" for="moodNote">Why do you feel this way?</label>
+        <textarea id="moodNote" rows="3" placeholder="Write a short note..."></textarea>
+
+        <button id="saveMoodButton" class="save-mood-button" type="button">Save mood</button>
+        <p id="toolStatus" class="tool-status">Log how you feel today.</p>
+      </section>
+
       <section class="card about-card tilt-card card-span-2" id="about">
         <div class="section-kicker">About</div>
         <div class="about-layout">
@@ -142,11 +169,11 @@
             <span class="project-arrow">↗</span>
           </a>
 
-          <a href="game/" class="project-item">
+          <a href="proxy/" class="project-item">
             <div class="project-index">03</div>
             <div>
-              <h4>Proxy Game</h4>
-              <p>An existing portal-style game lane that opens directly from the main category hub.</p>
+              <h4>Nebula Proxy Browser</h4>
+              <p>A browser-style portal that loads a target website inside a custom shell for demo browsing.</p>
             </div>
             <span class="project-arrow">↗</span>
           </a>

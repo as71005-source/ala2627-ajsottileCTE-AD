@@ -108,14 +108,14 @@ button {
   padding: 24px;
   border: 1px solid var(--line);
   background: linear-gradient(180deg, rgba(11, 22, 29, 0.86), rgba(8, 16, 22, 0.72));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 18px 42px var(--shadow);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 24px 60px rgba(0, 0, 0, 0.18);
 }
 
 .card::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), transparent 45%, rgba(255, 255, 255, 0.015));
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent 40%, rgba(122, 215, 255, 0.02));
   pointer-events: none;
 }
 
@@ -149,14 +149,43 @@ h1 {
 
 .game-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 22px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
 }
 
 .mini-game {
   display: grid;
-  gap: 16px;
-  min-height: 320px;
+  gap: 18px;
+  min-height: 412px;
+  background: linear-gradient(180deg, rgba(11, 22, 29, 0.95), rgba(8, 16, 22, 0.82));
+  border: 1px solid rgba(122, 215, 255, 0.14);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  position: relative;
+}
+
+.mini-game::after {
+  content: "";
+  position: absolute;
+  inset: 12px 12px auto auto;
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(122, 215, 255, 0.18), transparent 70%);
+  pointer-events: none;
+}
+
+.mini-game:hover {
+  transform: translateY(-6px);
+  border-color: rgba(147, 241, 209, 0.26);
+  box-shadow: 0 22px 52px rgba(0, 0, 0, 0.24);
+}
+
+.mini-game:nth-child(odd) {
+  background: linear-gradient(180deg, rgba(14, 27, 38, 0.96), rgba(10, 17, 22, 0.82));
+}
+
+.mini-game:nth-child(3n) {
+  background: linear-gradient(180deg, rgba(18, 27, 36, 0.96), rgba(12, 21, 25, 0.84));
 }
 
 .game-head {
@@ -168,14 +197,16 @@ h1 {
 
 .game-head h3 {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: 1.35rem;
+  letter-spacing: -0.04em;
 }
 
 .game-head span {
   color: var(--mint);
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  font-weight: 700;
 }
 
 .game-controls {
@@ -193,7 +224,7 @@ h1 {
 
 .small-btn {
   border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.04);
+  background: linear-gradient(135deg, rgba(147, 241, 209, 0.12), rgba(122, 215, 255, 0.1));
   color: var(--text);
   border-radius: 999px;
   padding: 8px 12px;
@@ -201,6 +232,12 @@ h1 {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-size: 0.68rem;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.small-btn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(147, 241, 209, 0.24);
 }
 
 .status-line {
@@ -213,16 +250,23 @@ h1 {
 .memory-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
+  gap: 12px;
 }
 
 .memory-card {
-  height: 58px;
-  border-radius: 14px;
+  height: 72px;
+  border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.04);
+  background: linear-gradient(135deg, rgba(122, 215, 255, 0.15), rgba(184, 169, 255, 0.1));
   color: var(--text);
-  font-size: 1.5rem;
+  font-size: 1.7rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: transform 0.12s ease, border-color 0.12s ease;
+}
+
+.memory-card:hover {
+  transform: translateY(-1px);
+  border-color: rgba(147, 241, 209, 0.24);
 }
 
 .memory-card.revealed {
@@ -236,16 +280,23 @@ h1 {
 .rps-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  gap: 12px;
 }
 
 .rps-btn {
-  height: 70px;
+  height: 82px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.04);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(147, 241, 209, 0.08), rgba(122, 215, 255, 0.14));
   color: var(--text);
-  font-size: 2rem;
+  font-size: 2.2rem;
+  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.rps-btn:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, rgba(147, 241, 209, 0.14), rgba(122, 215, 255, 0.18));
+  box-shadow: 0 12px 25px rgba(122, 215, 255, 0.1);
 }
 
 .guess-form {
@@ -263,20 +314,27 @@ h1 {
 }
 
 .reaction-box {
-  min-height: 120px;
-  border-radius: 18px;
+  min-height: 150px;
+  border-radius: 22px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: linear-gradient(135deg, rgba(122, 215, 255, 0.18), rgba(255, 184, 136, 0.12));
   color: var(--text);
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+  box-shadow: inset 0 0 28px rgba(122, 215, 255, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.reaction-box:hover {
+  transform: translateY(-1px);
 }
 
 .reaction-box.ready {
-  background: linear-gradient(135deg, rgba(147, 241, 209, 0.24), rgba(122, 215, 255, 0.18));
+  background: linear-gradient(135deg, rgba(147, 241, 209, 0.26), rgba(122, 215, 255, 0.2));
   color: #061a23;
+  box-shadow: 0 0 24px rgba(147, 241, 209, 0.12);
 }
 
 .ttt-grid {
@@ -289,9 +347,9 @@ h1 {
   aspect-ratio: 1;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.04);
+  background: linear-gradient(135deg, rgba(122, 215, 255, 0.08), rgba(255, 255, 255, 0.03));
   color: var(--text);
-  font-size: 2rem;
+  font-size: 2.1rem;
   font-weight: 700;
 }
 
@@ -305,7 +363,7 @@ h1 {
   aspect-ratio: 1;
   border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.04);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(122, 215, 255, 0.07));
   position: relative;
 }
 
@@ -327,47 +385,49 @@ h1 {
 #snake-board,
 #pong-board {
   width: 100%;
-  max-width: 220px;
+  max-width: 260px;
   display: block;
   margin: 0 auto;
-  background: rgba(2, 11, 16, 0.9);
-  border-radius: 16px;
+  background: radial-gradient(circle at center, rgba(122, 215, 255, 0.08), rgba(2, 11, 16, 0.96));
+  border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 24px rgba(122, 215, 255, 0.06);
 }
 
 #pong-board {
-  max-width: 320px;
+  max-width: 360px;
 }
 
 .color-field {
   position: relative;
-  height: 130px;
-  border-radius: 18px;
-  background: linear-gradient(135deg, rgba(122, 215, 255, 0.15), rgba(184, 169, 255, 0.12));
+  height: 150px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(122, 215, 255, 0.16), rgba(184, 169, 255, 0.15));
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .color-target {
   position: absolute;
-  width: 42px;
-  height: 42px;
+  width: 52px;
+  height: 52px;
   border: none;
   border-radius: 50%;
-  background: var(--mint);
+  background: radial-gradient(circle at 30% 30%, #dffefb, var(--mint));
   color: #061a23;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   font-weight: 800;
+  box-shadow: 0 0 25px rgba(147, 241, 209, 0.28);
 }
 
 .typing-word {
   display: grid;
   place-items: center;
-  min-height: 56px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.04);
+  min-height: 64px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(147, 241, 209, 0.08), rgba(122, 215, 255, 0.08));
   border: 1px solid rgba(255, 255, 255, 0.08);
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   color: var(--mint);
   letter-spacing: 0.08em;
   text-transform: lowercase;
@@ -380,6 +440,7 @@ h1 {
   color: var(--text);
   border-radius: 12px;
   padding: 10px 12px;
+  font-size: 1rem;
 }
 
 .contact-card {

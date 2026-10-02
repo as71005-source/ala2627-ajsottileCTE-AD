@@ -1,22 +1,19 @@
-/* styles.css — the look of your Week 8 project.
-   Last week's CSS is all here: variables, flexbox, a spacing scale, and states. */
-
-/* ── DAY 1 · TODO 5: your colours ─────────────────────────────────────────
-   Change these two to colours YOU picked. Everything on the page uses them. */
 :root {
-  --main: #1d3160;     /* the background of the header and the button */
-  --accent: #f5c842;   /* the colour that pops */
+  --main: #1d3160;
+  --accent: #f5c842;
   --text: #13182a;
   --paper: #f7f8fb;
-
-  /* the spacing scale: use only these three */
+  --surface: #ffffff;
+  --muted: #5c6479;
+  --border: #d9dfe9;
   --space-s: 8px;
   --space-m: 16px;
   --space-l: 32px;
 }
 
-/* ── the page ───────────────────────────────────────────────────────────── */
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
@@ -42,10 +39,17 @@ body {
   font-size: 0.8rem;
 }
 
-.top h1 { margin: var(--space-s) 0; font-size: clamp(2rem, 6vw, 3.2rem); line-height: 1.1; }
-.tagline { margin: 0; opacity: 0.85; }
+.top h1 {
+  margin: var(--space-s) 0;
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  line-height: 1.1;
+}
 
-/* ── the cards: flexbox from Week 7 ─────────────────────────────────────── */
+.tagline {
+  margin: 0;
+  opacity: 0.85;
+}
+
 .cards {
   display: flex;
   flex-wrap: wrap;
@@ -57,17 +61,40 @@ body {
 
 .card {
   flex: 1 1 260px;
-  background: white;
+  background: var(--surface);
   border-radius: 14px;
   padding: var(--space-m);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
 
-.card h2 { margin-top: 0; }
+.card h2 {
+  margin-top: 0;
+}
 
-.feature { border-top: 6px solid var(--accent); }
+.feature {
+  border-top: 6px solid var(--accent);
+}
 
-/* ── the button, with its states ────────────────────────────────────────── */
+.task-form {
+  display: flex;
+  gap: var(--space-s);
+  margin-bottom: var(--space-m);
+}
+
+#task-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font: inherit;
+}
+
+#task-input:focus {
+  outline: 3px solid rgba(245, 200, 66, 0.35);
+  border-color: var(--main);
+}
+
 #action {
   font: inherit;
   font-weight: 700;
@@ -77,17 +104,74 @@ body {
   border-radius: 10px;
   padding: var(--space-s) var(--space-m);
   cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
 }
 
-/* DAY 4: give your button a hover state and a focus state here */
+#action:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+}
+
+#action:focus-visible {
+  outline: 3px solid rgba(29, 49, 96, 0.35);
+  outline-offset: 2px;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--space-m);
+  display: grid;
+  gap: 0.5rem;
+}
+
+.task-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-s);
+  background: #f3f5fa;
+  border-radius: 10px;
+  padding: 0.65rem 0.8rem;
+}
+
+.task-list li.empty {
+  color: var(--muted);
+  background: transparent;
+  border: 1px dashed var(--border);
+  justify-content: center;
+}
+
+.done-btn {
+  border: 0;
+  background: var(--accent);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+  font-weight: 700;
+  cursor: pointer;
+}
 
 #output {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 700;
+  margin: 0;
 }
 
 .bottom {
   text-align: center;
   padding: var(--space-m);
   opacity: 0.7;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }

@@ -1,20 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
-  initMemoryMatch();
-  initRockPaperScissors();
-  initGuessGame();
-  initReactionTest();
-  initTicTacToe();
-  initWhackMole();
-  initSnake();
-  initColorCatch();
-  initTypingRush();
-  initPong();
+  if (document.querySelector('.memory-card')) initMemoryMatch();
+  if (document.querySelector('.rps-btn')) initRockPaperScissors();
+  if (document.getElementById('guess-form')) initGuessGame();
+  if (document.getElementById('reaction-box')) initReactionTest();
+  if (document.querySelector('.ttt-cell')) initTicTacToe();
+  if (document.querySelector('.mole-hole')) initWhackMole();
+  if (document.getElementById('snake-board')) initSnake();
+  if (document.getElementById('color-field')) initColorCatch();
+  if (document.getElementById('typing-input')) initTypingRush();
+  if (document.getElementById('pong-board')) initPong();
 });
 
 function initMemoryMatch() {
   const cards = [...document.querySelectorAll('.memory-card')];
+  if (!cards.length) return;
   const scoreEl = document.getElementById('memory-score');
+  if (!scoreEl) return;
   const resetButton = document.querySelector('[data-reset="memory"]');
+  if (!resetButton) return;
   const icons = ['🍒', '🍋', '🍇', '🍉', '🍎', '🍊'];
 
   let deck = [...icons, ...icons].sort(() => Math.random() - 0.5);
@@ -80,9 +83,12 @@ function initMemoryMatch() {
 
 function initRockPaperScissors() {
   const buttons = [...document.querySelectorAll('.rps-btn')];
+  if (!buttons.length) return;
   const resultEl = document.getElementById('rps-result');
   const scoreEl = document.getElementById('rps-score');
+  if (!resultEl || !scoreEl) return;
   const resetButton = document.querySelector('[data-reset="rps"]');
+  if (!resetButton) return;
 
   const choices = ['rock', 'paper', 'scissors'];
   let score = 0;
@@ -129,10 +135,13 @@ function initRockPaperScissors() {
 
 function initGuessGame() {
   const form = document.getElementById('guess-form');
+  if (!form) return;
   const input = document.getElementById('guess-input');
   const resultEl = document.getElementById('guess-result');
   const scoreEl = document.getElementById('guess-score');
+  if (!input || !resultEl || !scoreEl) return;
   const resetButton = document.querySelector('[data-reset="guess"]');
+  if (!resetButton) return;
 
   let target = Math.floor(Math.random() * 20) + 1;
   let score = 0;
@@ -178,7 +187,9 @@ function initGuessGame() {
 
 function initReactionTest() {
   const box = document.getElementById('reaction-box');
+  if (!box) return;
   const resultEl = document.getElementById('reaction-result');
+  if (!resultEl) return;
   let waiting = false;
   let startTime = 0;
   let timeoutId = null;
@@ -223,8 +234,11 @@ function initReactionTest() {
 
 function initTicTacToe() {
   const cells = [...document.querySelectorAll('.ttt-cell')];
+  if (!cells.length) return;
   const resultEl = document.getElementById('ttt-result');
+  if (!resultEl) return;
   const resetButton = document.querySelector('[data-reset="ttt"]');
+  if (!resetButton) return;
   const winningPatterns = [
     [0, 1, 2], [3, 4, 5], [6, 7, 8],
     [0, 3, 6], [1, 4, 7], [2, 5, 8],
@@ -295,8 +309,11 @@ function initTicTacToe() {
 
 function initWhackMole() {
   const holes = [...document.querySelectorAll('.mole-hole')];
+  if (!holes.length) return;
   const scoreEl = document.getElementById('mole-score');
+  if (!scoreEl) return;
   const resetButton = document.querySelector('[data-reset="mole"]');
+  if (!resetButton) return;
 
   let score = 0;
   let activeIndex = null;
@@ -343,9 +360,13 @@ function initWhackMole() {
 
 function initSnake() {
   const canvas = document.getElementById('snake-board');
+  if (!canvas) return;
   const ctx = canvas.getContext('2d');
+  if (!ctx) return;
   const scoreEl = document.getElementById('snake-score');
+  if (!scoreEl) return;
   const resetButton = document.querySelector('[data-reset="snake"]');
+  if (!resetButton) return;
 
   const gridSize = 11;
   const tileSize = canvas.width / gridSize;
@@ -442,8 +463,11 @@ function initSnake() {
 function initColorCatch() {
   const field = document.getElementById('color-field');
   const target = document.getElementById('color-target');
+  if (!field || !target) return;
   const scoreEl = document.getElementById('color-score');
+  if (!scoreEl) return;
   const resetButton = document.querySelector('[data-reset="color"]');
+  if (!resetButton) return;
 
   let score = 0;
 
@@ -452,8 +476,8 @@ function initColorCatch() {
   }
 
   function moveTarget() {
-    const maxX = field.clientWidth - target.offsetWidth;
-    const maxY = field.clientHeight - target.offsetHeight;
+    const maxX = Math.max(0, field.clientWidth - target.offsetWidth);
+    const maxY = Math.max(0, field.clientHeight - target.offsetHeight);
     const x = Math.random() * maxX;
     const y = Math.random() * maxY;
     target.style.left = `${x}px`;
@@ -479,8 +503,11 @@ function initColorCatch() {
 function initTypingRush() {
   const wordEl = document.getElementById('typing-word');
   const input = document.getElementById('typing-input');
+  if (!wordEl || !input) return;
   const scoreEl = document.getElementById('typing-score');
+  if (!scoreEl) return;
   const resetButton = document.querySelector('[data-reset="typing"]');
+  if (!resetButton) return;
   const words = ['portal', 'pixel', 'rocket', 'orbit', 'signal', 'play', 'level', 'arcade', 'drift', 'fusion'];
 
   let score = 0;
@@ -517,9 +544,13 @@ function initTypingRush() {
 
 function initPong() {
   const canvas = document.getElementById('pong-board');
+  if (!canvas) return;
   const ctx = canvas.getContext('2d');
+  if (!ctx) return;
   const scoreEl = document.getElementById('pong-score');
+  if (!scoreEl) return;
   const resetButton = document.querySelector('[data-reset="pong"]');
+  if (!resetButton) return;
 
   let userY = 80;
   let cpuY = 80;
@@ -544,6 +575,7 @@ function initPong() {
     cpuScore = 0;
     scoreEl.textContent = '0';
     resetBall();
+    draw();
   }
 
   document.addEventListener('keydown', (event) => {

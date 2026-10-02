@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,40 +14,38 @@
   <!-- This line connects your JavaScript. "defer" means: wait until the page has loaded, then run it. Do not delete it. -->
   <script src="script.js" defer></script>
 </head>
-<body>
-  <!--
-    MY CONTRACT FOR THE WEEK  (DAY 1 · TODO 2 — fill in all four, then save)
-    My topic:
-    My colours:
-    My headline:
-    The one thing only my site does:
-  -->
 
+<body>
   <header class="top">
-    <p class="kicker">Week 8 project</p>
-    <!-- DAY 1 · TODO 3: your headline, in your own words -->
-    <h1>Welcome to my site</h1>
-    <!-- DAY 1 · TODO 4: one line that tells a stranger what this page is about -->
-    <p class="tagline">Replace this with one line about your topic.</p>
+    <p class="kicker">Study Tools</p>
+    <h1>My Focus Planner</h1>
+    <p class="tagline">A simple place to keep the next important task clear and manageable.</p>
   </header>
 
   <main class="cards">
     <section class="card">
       <h2>About</h2>
-      <p>Replace this with two sentences about your topic.</p>
+      <p>This page is built to help you stay focused on what matters most. Instead of juggling everything in your head,
+        you can list the task that needs attention next.</p>
     </section>
 
     <section class="card feature">
-      <h2>Try it</h2>
-      <!-- DAY 2: this is your button. Its id, "action", is how JavaScript finds it. -->
-      <button id="action" type="button">Click me</button>
-      <!-- DAY 2: JavaScript writes into this paragraph. Its id is "output". -->
-      <p id="output">Nothing has happened yet.</p>
+      <h2>Try the tool</h2>
+      <label for="task-input" class="sr-only">Add a task</label>
+      <div class="task-form">
+        <input id="task-input" type="text" placeholder="Add your next task" maxlength="120">
+        <button id="action" type="button">Add task</button>
+      </div>
+      <ul id="task-list" class="task-list" aria-live="polite">
+        <li class="empty">No tasks yet — start your plan.</li>
+      </ul>
+      <p id="output">Your next step is ready.</p>
     </section>
 
     <section class="card">
       <h2>Why it matters</h2>
-      <p>Replace this with one reason someone should care about your topic.</p>
+      <p>When the next step is visible, you can focus on action instead of stress. A short task list makes the work feel
+        possible.</p>
     </section>
   </main>
 
@@ -54,4 +53,5 @@
     <p>Built in App Design 1.</p>
   </footer>
 </body>
+
 </html>
